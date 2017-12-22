@@ -82,8 +82,12 @@ public class Browser {
             driver = new ChromeDriver(caps);
        // driver.manage().window().maximize();
         driver.get("http://172.21.24.109:8087/gbpowerdialer");
+
+        WebElement element = driver.findElement(By.cssSelector("somejibrish"));
+        element.click();
+
         saveLogs("browser");
-        Thread.sleep(10000);
+        Thread.sleep(5000);
 
         driver.quit();
     }
