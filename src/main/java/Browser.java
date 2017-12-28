@@ -86,7 +86,6 @@ public class Browser {
         WebElement element = driver.findElement(By.cssSelector("somejibrish"));
         element.click();
 
-        saveLogs("browser");
         Thread.sleep(5000);
 
         driver.quit();
@@ -113,4 +112,11 @@ public class Browser {
             //do something useful with the data
         }*/
     }
+    
+    @AfterTest
+    public void teardown() throws IOException {
+        saveLogs("browser");
+        driver.quit();
+    }
+
 }
