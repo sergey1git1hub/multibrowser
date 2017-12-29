@@ -35,6 +35,7 @@ public class Browser {
 
     @Test
     public void browser() throws InterruptedException, IOException {
+        if(System.getProperty("browserName").equalsIgnoreCase("chrome")){
         System.setProperty("webdriver.chrome.driver", "C:/chromedriver/chromedriver.exe");
         /*********SETUP IEDRIVER LOGGING****************/
         System.setProperty("webdriver.chrome.verboseLogging", "false");
@@ -70,6 +71,7 @@ public class Browser {
         //Assert.assertTrue(false);
 
         Thread.sleep(5000);
+        }
     }
 
     public static void saveLogs(String methodName) throws IOException {
