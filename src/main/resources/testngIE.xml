@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="regression" verbose = "10">
+
+    <test name="TwoLinesAgentHangup">
+        <classes>
+            <!--<class name="Selenium"/>
+            <class name="Sikuli"/>
+            <class name="TestNG"/>
+            <class name="Log4j"/>-->
+            <class name="Browser"/>
+        </classes>
+    </test>
+</suite>
