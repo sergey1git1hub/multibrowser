@@ -1,4 +1,5 @@
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -35,22 +36,47 @@ public class Browser {
 
     @Test
     public void browser() throws InterruptedException, IOException {
-        if(System.getProperty("browserName").equalsIgnoreCase("chrome")){
-        System.setProperty("webdriver.chrome.driver", "C:/chromedriver/chromedriver.exe");
-        /*********SETUP IEDRIVER LOGGING****************/
-        System.setProperty("webdriver.chrome.verboseLogging", "false");
-        /************************************************/
+        if (System.getProperty("browserName").equalsIgnoreCase("chrome")) {
+            System.setProperty("webdriver.chrome.driver", "C:/chromedriver/chromedriver.exe");
+            /*********SETUP IEDRIVER LOGGING****************/
+            System.setProperty("webdriver.chrome.verboseLogging", "false");
+            /************************************************/
 
-        DesiredCapabilities caps = DesiredCapabilities.chrome();
-        LoggingPreferences logPrefs = new LoggingPreferences();
-        logPrefs.enable(LogType.BROWSER, Level.ALL);
-        caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+            DesiredCapabilities caps = DesiredCapabilities.chrome();
+            LoggingPreferences logPrefs = new LoggingPreferences();
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+            caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--start-maximized");
             caps.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
             driver = new ChromeDriver(caps);
-       // driver.manage().window().maximize();
+        } else {
+            Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");
+            Runtime.getRuntime().exec("taskkill /F /IM iexplore.exe");
+
+            /*********SETUP IEDRIVER LOGGING*****************/
+            System.setProperty("webdriver.ie.driver.loglevel", "INFO");
+            /************************************************/
+            System.setProperty("webdriver.ie.driver", "C:/iedriver32/IEDriverServer.exe");
+
+            DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+            ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,
+                    true);
+
+            /**********PLAY WITH CAPABILITIES*********************/
+            ieCapabilities.setCapability("nativeEvents", false);
+            ieCapabilities.setCapability("unexpectedAlertBehaviour", "accept");
+            ieCapabilities.setCapability("ignoreProtectedModeSettings", true);
+            ieCapabilities.setCapability("disable-popup-blocking", true);
+            ieCapabilities.setCapability("enablePersistentHover", true);
+            ieCapabilities.setCapability("ignoreZoomSetting", true);
+            /***************************************************/
+            driver = new InternetExplorerDriver(ieCapabilities);
+            driver.manage().window().maximize();
+
+        }
+        // driver.manage().window().maximize();
         driver.get("http://172.21.24.109:8087/gbpowerdialer");
 
         ScreenshotUtility.captureScreenshot(driver, "Powerdialer link opened");
@@ -71,8 +97,8 @@ public class Browser {
         //Assert.assertTrue(false);
 
         Thread.sleep(5000);
-        }
     }
+
 
     public static void saveLogs(String methodName) throws IOException {
         LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);

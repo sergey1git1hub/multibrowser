@@ -10,6 +10,7 @@
 
     <properties>
         <testngXmlPath>src/test/resources/testngChrome.xml</testngXmlPath>
+        <browserName>ie</browserName>
     </properties>
 
     <dependencies>
