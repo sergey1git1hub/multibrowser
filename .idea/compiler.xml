@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="logs" />
+        <module name="multibrowser" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="logs" target="1.5" />
+      <module name="multibrowser" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
