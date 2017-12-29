@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,10 +34,18 @@ import org.testng.Assert;
  */
 public class Browser {
     private static WebDriver driver;
+    String browser;
 
     @Test
     public void browser() throws InterruptedException, IOException {
-        if (System.getProperty("browserName").equalsIgnoreCase("chrome")) {
+        String hostName = InetAddress.getLocalHost().getHostName();
+        if (!hostName.equalsIgnoreCase("KV1-EM-PC-14")) {
+            browser = System.getProperty("browserName");
+        } else {
+            browser = "chrome";
+        }
+        
+        if (browser.equalsIgnoreCase("chrome")) {
             System.setProperty("webdriver.chrome.driver", "C:/chromedriver/chromedriver.exe");
             /*********SETUP IEDRIVER LOGGING****************/
             System.setProperty("webdriver.chrome.verboseLogging", "false");

@@ -4,7 +4,9 @@
 <suite name="regression" verbose = "10">
 
     <test name="TwoLinesAgentHangup">
+
         <classes>
+
             <!--<class name="Selenium"/>
             <class name="Sikuli"/>
             <class name="TestNG"/>
