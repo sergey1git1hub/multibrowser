@@ -91,9 +91,9 @@ public class Browser {
         ScreenshotUtility.captureScreenshot(driver, "Powerdialer link opened");
         /*WebElement element = driver.findElement(By.cssSelector("somejibrish"));
         element.click();*/
-       // if (browser.equalsIgnoreCase("chrome")) {
+        if (browser.equalsIgnoreCase("chrome")) {
         Assert.assertEquals(driver.getTitle(), "gbpowerdialer");
-        //}
+        }
         Thread.sleep(1000);
         WebElement username = driver.findElement(By.cssSelector("#username"));
         username.sendKeys("81016");
