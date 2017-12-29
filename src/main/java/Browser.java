@@ -66,7 +66,8 @@ public class Browser {
         password.sendKeys("1");
         WebElement button_SignIn = driver.findElement(By.cssSelector("#loginModal > div > div > form > div.modal-footer > button"));
         button_SignIn.click();
-        Assert.assertTrue(false);
+
+        //Assert.assertTrue(false);
 
         Thread.sleep(5000);
     }
@@ -92,7 +93,15 @@ public class Browser {
             //do something useful with the data
         }*/
     }
-    
+
+
+    @AfterTest
+    public void teardown1() throws IOException {
+        saveLogs("browser");
+        driver.quit();
+    }
+
+/*
     @AfterTest
     public void teardown1(ITestResult result) throws IOException {
         if(ITestResult.FAILURE ==result.getStatus()){
@@ -102,5 +111,6 @@ public class Browser {
         saveLogs("browser");
         driver.quit();
     }
+*/
 
 }
