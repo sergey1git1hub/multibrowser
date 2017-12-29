@@ -5,57 +5,26 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+
 import java.util.logging.Level;
 
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.sikuli.basics.Debug;
-import org.sikuli.script.App;
-import org.sikuli.script.FindFailed;
-import org.sikuli.script.Screen;
+
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.regex.Pattern;
-
 
 
 /**
@@ -83,12 +52,23 @@ public class Browser {
        // driver.manage().window().maximize();
         driver.get("http://172.21.24.109:8087/gbpowerdialer");
 
-        WebElement element = driver.findElement(By.cssSelector("somejibrish"));
-        element.click();
+        ScreenshotUtility.captureScreenshot(driver, "Powerdialer link opened");
+        /*WebElement element = driver.findElement(By.cssSelector("somejibrish"));
+        element.click();*/
+
+        Assert.assertEquals(driver.getTitle(), "gbpowerdialer");
+
+        Thread.sleep(1000);
+        WebElement username = driver.findElement(By.cssSelector("#username"));
+        username.sendKeys("81016");
+        ScreenshotUtility.captureScreenshot(driver, "Username entered");
+        WebElement password = driver.findElement(By.cssSelector("#password"));
+        password.sendKeys("1");
+        WebElement button_SignIn = driver.findElement(By.cssSelector("#loginModal > div > div > form > div.modal-footer > button"));
+        button_SignIn.click();
+        Assert.assertTrue(false);
 
         Thread.sleep(5000);
-
-        driver.quit();
     }
 
     public static void saveLogs(String methodName) throws IOException {
@@ -114,7 +94,11 @@ public class Browser {
     }
     
     @AfterTest
-    public void teardown() throws IOException {
+    public void teardown1(ITestResult result) throws IOException {
+        if(ITestResult.FAILURE ==result.getStatus()){
+            ScreenshotUtility.captureScreenshot(driver, ("Test case name is " +  result.getName()));
+            //System.out.println("Test.");
+        }
         saveLogs("browser");
         driver.quit();
     }
