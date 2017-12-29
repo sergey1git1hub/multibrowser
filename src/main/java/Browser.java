@@ -34,7 +34,7 @@ import org.testng.Assert;
  */
 public class Browser {
     private static WebDriver driver;
-    String browser;
+    static String browser;
 
     @Test
     public void browser() throws InterruptedException, IOException {
@@ -42,9 +42,9 @@ public class Browser {
         if (!hostName.equalsIgnoreCase("KV1-EM-PC-14")) {
             browser = System.getProperty("browserName");
         } else {
-            browser = "chrome";
+            browser = "ie";
         }
-        
+
         if (browser.equalsIgnoreCase("chrome")) {
             System.setProperty("webdriver.chrome.driver", "C:/chromedriver/chromedriver.exe");
             /*********SETUP IEDRIVER LOGGING****************/
@@ -110,25 +110,32 @@ public class Browser {
 
 
     public static void saveLogs(String methodName) throws IOException {
-        LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
-        Date date = new Date();
+        if (browser.equalsIgnoreCase("ie")) {
+
+        } else {
+
+
+            LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
+            Date date = new Date();
+
 /*
         File driverLog = new File("video/" + methodName + dateFormat.format(date) + ".log");
 */
-        File driverLog = new File("video\\" + methodName + dateFormat.format(date) + ".log");
-        driverLog.getParentFile().mkdirs();
-        driverLog.createNewFile();
+            File driverLog = new File("video\\" + methodName + dateFormat.format(date) + ".log");
+            driverLog.getParentFile().mkdirs();
+            driverLog.createNewFile();
 
-        FileWriter writer = new FileWriter(driverLog);
-        for (LogEntry logEntry : logEntries.getAll()) {
-            writer.write(logEntry.toString() + "\\n");
-        }
-        writer.close();
+            FileWriter writer = new FileWriter(driverLog);
+            for (LogEntry logEntry : logEntries.getAll()) {
+                writer.write(logEntry.toString() + "\\n");
+            }
+            writer.close();
      /*   for (LogEntry entry : logEntries) {
             System.out.println(new Date(entry.getTimestamp()) + " " + entry.getLevel() + " " + entry.getMessage());
             //do something useful with the data
         }*/
+        }
     }
 
 
